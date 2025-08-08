@@ -1,27 +1,20 @@
-import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
-import { Theme } from '@radix-ui/themes'
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import React from 'react'
+import ReactDOM from 'react-dom/client'
 import App from './App'
 
 import './index.css'
-import './styles/global.css.ts'
 
-const queryClient = new QueryClient({
-  defaultOptions: {
-    queries: {
-      staleTime: 60 * 1000,
-      gcTime: 5 * 60 * 1000,
-    },
-  },
-})
+const container = document.getElementById('root')
+if (import.meta.env.DEV && !(container instanceof HTMLElement)) {
+  throw new Error(
+    'Root element not found. Did you forget to add it to your index.html? Or maybe the id attribute got misspelled?'
+  )
+}
 
-createRoot(document.getElementById('root')!).render(
-  <StrictMode>
-    <QueryClientProvider client={queryClient}>
-      <Theme accentColor="blue" grayColor="slate" radius="large" scaling="100%">
-        <App />
-      </Theme>
-    </QueryClientProvider>
-  </StrictMode>
+const root = ReactDOM.createRoot(container!)
+
+root.render(
+  <React.StrictMode>
+    <App />
+  </React.StrictMode>
 )
